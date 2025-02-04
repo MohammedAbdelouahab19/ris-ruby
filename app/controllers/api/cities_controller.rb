@@ -1,17 +1,14 @@
 class Api::CitiesController < ApplicationController
-  # GET /api/cities
   def index
     @cities = City.all
     render json: @cities
   end
 
-  # GET /api/cities/:id
   def show
     @city = City.find(params[:id])
     render json: @city
   end
 
-  # POST /api/cities
   def create
     @city = City.new(city_params)
     if @city.save
@@ -21,7 +18,6 @@ class Api::CitiesController < ApplicationController
     end
   end
 
-  # PUT /api/cities/:id
   def update
     @city = City.find(params[:id])
     if @city.update(city_params)
@@ -31,7 +27,6 @@ class Api::CitiesController < ApplicationController
     end
   end
 
-  # DELETE /api/cities/:id
   def destroy
     @city = City.find(params[:id])
     @city.destroy

@@ -31,4 +31,4 @@ en:
   hello: "Hello world"
   VALIDATION:
     MIXED:
-      REQUIRED: The field is required
+      REQUIRED: Le champs est obligatoire

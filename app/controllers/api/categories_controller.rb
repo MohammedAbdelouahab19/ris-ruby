@@ -1,17 +1,14 @@
 class Api::CategoriesController < ApplicationController
-  # GET /api/categories
   def index
     @categories = Category.all
     render json: @categories
   end
 
-  # GET /api/categories/:id
   def show
     @category = Category.find(params[:id])
     render json: @category
   end
 
-  # POST /api/categories
   def create
     @category = Category.new(category_params)
     if @category.save
@@ -21,7 +18,6 @@ class Api::CategoriesController < ApplicationController
     end
   end
 
-  # PUT /api/categories/:id
   def update
     @category = Category.find(params[:id])
     if @category.update(category_params)
@@ -31,7 +27,6 @@ class Api::CategoriesController < ApplicationController
     end
   end
 
-  # DELETE /api/categories/:id
   def destroy
     @category = Category.find(params[:id])
     @category.destroy
