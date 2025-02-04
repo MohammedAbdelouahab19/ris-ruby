@@ -21,6 +21,8 @@ jobs:
 
       - name: Scan for common Rails security vulnerabilities using static analysis
         run: bin/brakeman --no-pager
+    permissions:
+          contents: write
 
   lint:
     runs-on: ubuntu-latest
@@ -36,9 +38,13 @@ jobs:
 
       - name: Lint code for consistent style
         run: bin/rubocop -f github
+    permissions:
+          contents: write
 
   test:
     runs-on: ubuntu-latest
+    permissions:
+          contents: write
 
     services:
       postgres:
