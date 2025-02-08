@@ -1,0 +1,2 @@
+class PathologyZone < ApplicationRecord
+end

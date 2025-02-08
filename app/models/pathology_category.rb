@@ -1,0 +1,2 @@
+class PathologyCategory < ApplicationRecord
+end

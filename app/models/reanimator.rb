@@ -1,0 +1,2 @@
+class Reanimator < ApplicationRecord
+end

@@ -1,0 +1,78 @@
+sudo apt update
+sudo apt install libpq-dev
+bundle install
+sudo apt install postgresql-client-common
+sudo apt install postgresql postgresql-contrib
+start database:
+sudo systemctl start postgresql
+sudo -i -u postgres
+psql
+CREATE ROLE username WITH LOGIN PASSWORD 'password';
+
+sed -i 's/\r$//' bin/rails
+sudo -i -u postgres
+psql
+ALTER ROLE username CREATEDB;
+\du
+\q
+exit
+
+ bin/rails db:create
+bin/rails db:migrate
+
+
+run factories:
+rails console
+10.times { FactoryBot.create(:category) }
+
+create completed component:
+rails generate scaffold Examination patient_weight:float patient:references service:references nurse:references reanimator:references corresponding:references convention:references prescriber:references technical:references radiologist:references note:text
+rails generate factory_bot:model examination patient_weight:float patient:references service:references nurse:references reanimator:references corresponding:references convention:references prescriber:references technical:references radiologist:references note:text
+rails db:migrate
+
+
+rails generate scaffold Organ name:string code:string region:references
+rails generate factory_bot:model organ name:string code:string region:references
+rails generate scaffold Pathology name:string pathology_zone:references pathology_category:references description:text
+rails generate factory_bot:model pathology name:string pathology_zone:references pathology_category:references description:text
+rails generate scaffold PathologyCategory name:string
+rails generate factory_bot:model pathology_category name:string
+rails generate scaffold PathologyZone name:string
+rails generate factory_bot:model pathology_zone name:string
+rails generate scaffold Patient first_name:string last_name:string birthday:date age:integer gender:string city:references
+rails generate factory_bot:model patient first_name:string last_name:string birthday:date age:integer gender:string city:references
+rails generate scaffold Prescriber first_name:string last_name:string title:string structure:references speciality:references service:references email:string address:string phone_number:string
+rails generate factory_bot:model prescriber first_name:string last_name:string title:string structure:references speciality:references service:references email:string address:string phone_number:string
+rails generate scaffold Reanimator first_name:string last_name:string
+rails generate factory_bot:model reanimator first_name:string last_name:string
+rails generate scaffold Region name:string code:string direction:string
+rails generate factory_bot:model region name:string code:string direction:string
+rails generate scaffold Report status:string content:string examination:references
+rails generate factory_bot:model report status:string content:string examination:references
+rails generate scaffold ReportTemplate title:string content:string room:references
+rails generate factory_bot:model report_template title:string content:string room:references
+rails generate scaffold Resource name:string
+rails generate factory_bot:model resource name:string
+rails generate scaffold Role role_key:string name:string
+rails generate factory_bot:model role role_key:string name:string
+rails generate scaffold Room name:string description:string ip:string application_entity_title:string service:references modality:references
+rails generate factory_bot:model room name:string description:string ip:string application_entity_title:string service:references modality:references
+rails generate scaffold Service name:string establishment:references
+rails generate factory_bot:model service name:string establishment:references
+rails generate scaffold Setting setting_key:string value:string
+rails generate factory_bot:model setting setting_key:string value:string
+rails generate scaffold Speciality name:string
+rails generate factory_bot:model speciality name:string
+rails generate scaffold Structure name:string
+rails generate factory_bot:model structure name:string
+rails generate scaffold Test date:date status:string underAnesthesia:boolean examination:references
+rails generate factory_bot:model test date:date status:string underAnesthesia:boolean examination:references
+rails generate model User first_name:string last_name:string username:string:uniq title:string phone_number:string hl7_code:string password_digest:string role:references
+rails generate factory_bot:model User
+rails generate scaffold User first_name:string last_name:string username:string title:string phone_number:string hl7_code:string password_digest:string role:references
+rails generate factory_bot:model user first_name:string last_name:string username:string title:string phone_number:string hl7_code:string password_digest:string role:references
+rails generate scaffold Workspace api_key:string
+rails generate factory_bot:model workspace api_key:string
+
+
+31 models
