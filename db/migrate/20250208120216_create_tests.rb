@@ -4,7 +4,7 @@ class CreateTests < ActiveRecord::Migration[8.0]
       t.date :date
       t.string :status
       t.boolean :underAnesthesia
-      t.references :examination, null: false, foreign_key: true
+      # t.references :examination, null: false, foreign_key: true
 
       t.timestamps
     end

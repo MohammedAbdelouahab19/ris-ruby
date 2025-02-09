@@ -76,3 +76,20 @@ rails generate factory_bot:model workspace api_key:string
 
 
 31 models
+
+
+
+create empty migration for foreigns:
+rails generate migration AddForeignKeysToExaminations
+
+database drop:
+rails db:drop
+
+database create:
+rails db:create
+
+show which migrations are up:
+rails db:migrate:status
+
+
+

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_07_175609) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_09_150446) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -26,9 +26,287 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_07_175609) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "conventions", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "correspondings", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "establishments", force: :cascade do |t|
+    t.string "name"
+    t.string "default_lang"
+    t.string "invoice_number_pattern"
+    t.string "receipt_number_pattern"
+    t.string "support_email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "city_id", null: false
+    t.bigint "report_template_id", null: false
+    t.index ["city_id"], name: "index_establishments_on_city_id"
+    t.index ["report_template_id"], name: "index_establishments_on_report_template_id"
+  end
+
+  create_table "examinations", force: :cascade do |t|
+    t.float "patientWeight"
+    t.string "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "patient_id", null: false
+    t.bigint "service_id"
+    t.bigint "nurse_id"
+    t.bigint "reanimator_id"
+    t.bigint "corresponding_id"
+    t.bigint "convention_id"
+    t.bigint "prescriber_id"
+    t.bigint "technical_id"
+    t.bigint "radiologist_id"
+    t.index ["convention_id"], name: "index_examinations_on_convention_id"
+    t.index ["corresponding_id"], name: "index_examinations_on_corresponding_id"
+    t.index ["nurse_id"], name: "index_examinations_on_nurse_id"
+    t.index ["patient_id"], name: "index_examinations_on_patient_id"
+    t.index ["prescriber_id"], name: "index_examinations_on_prescriber_id"
+    t.index ["radiologist_id"], name: "index_examinations_on_radiologist_id"
+    t.index ["reanimator_id"], name: "index_examinations_on_reanimator_id"
+    t.index ["service_id"], name: "index_examinations_on_service_id"
+    t.index ["technical_id"], name: "index_examinations_on_technical_id"
+  end
+
+  create_table "modalities", force: :cascade do |t|
+    t.string "code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "modality_options", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "nurses", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "operations", force: :cascade do |t|
+    t.string "name"
+    t.string "operation_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "resource_id", null: false
+    t.index ["resource_id"], name: "index_operations_on_resource_id"
+  end
+
+  create_table "organs", force: :cascade do |t|
+    t.string "name"
+    t.string "code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "pathologies", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "pathology_zone_id", null: false
+    t.bigint "pathology_category_id", null: false
+    t.index ["pathology_category_id"], name: "index_pathologies_on_pathology_category_id"
+    t.index ["pathology_zone_id"], name: "index_pathologies_on_pathology_zone_id"
+  end
+
+  create_table "pathology_categories", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "pathology_zones", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "patients", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.date "birthday"
+    t.integer "age"
+    t.string "gender"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "city_id", null: false
+    t.index ["city_id"], name: "index_patients_on_city_id"
+  end
+
+  create_table "prescribers", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "title"
+    t.string "email"
+    t.string "address"
+    t.string "phone_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "structure_id", null: false
+    t.bigint "speciality_id", null: false
+    t.bigint "service_id", null: false
+    t.index ["service_id"], name: "index_prescribers_on_service_id"
+    t.index ["speciality_id"], name: "index_prescribers_on_speciality_id"
+    t.index ["structure_id"], name: "index_prescribers_on_structure_id"
+  end
+
+  create_table "reanimators", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "regions", force: :cascade do |t|
+    t.string "name"
+    t.string "code"
+    t.string "direction"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "region_id", null: false
+    t.index ["region_id"], name: "index_regions_on_region_id"
+  end
+
+  create_table "report_templates", force: :cascade do |t|
+    t.string "title"
+    t.string "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "room_id", null: false
+    t.index ["room_id"], name: "index_report_templates_on_room_id"
+  end
+
+  create_table "reports", force: :cascade do |t|
+    t.string "status"
+    t.string "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "examination_id", null: false
+    t.index ["examination_id"], name: "index_reports_on_examination_id"
+  end
+
+  create_table "resources", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.string "role_key"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "rooms", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.string "ip"
+    t.string "application_entity_title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "service_id", null: false
+    t.bigint "modality_id", null: false
+    t.index ["modality_id"], name: "index_rooms_on_modality_id"
+    t.index ["service_id"], name: "index_rooms_on_service_id"
+  end
+
+  create_table "services", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "establishment_id", null: false
+    t.index ["establishment_id"], name: "index_services_on_establishment_id"
+  end
+
+  create_table "settings", force: :cascade do |t|
+    t.string "setting_key"
+    t.string "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "specialities", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "structures", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "tests", force: :cascade do |t|
+    t.date "date"
+    t.string "status"
+    t.boolean "underAnesthesia"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "examination_id", null: false
+    t.index ["examination_id"], name: "index_tests_on_examination_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "username"
+    t.string "title"
+    t.string "phone_number"
+    t.string "hl7_code"
+    t.string "password_digest"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "role_id"
+    t.index ["role_id"], name: "index_users_on_role_id"
+    t.index ["username"], name: "index_users_on_username", unique: true
+  end
+
+  create_table "workspaces", force: :cascade do |t|
+    t.string "api_key"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "establishments", "cities"
+  add_foreign_key "establishments", "report_templates"
+  add_foreign_key "examinations", "conventions"
+  add_foreign_key "examinations", "correspondings"
+  add_foreign_key "examinations", "nurses"
+  add_foreign_key "examinations", "patients"
+  add_foreign_key "examinations", "prescribers"
+  add_foreign_key "examinations", "reanimators"
+  add_foreign_key "examinations", "services"
+  add_foreign_key "examinations", "users", column: "radiologist_id"
+  add_foreign_key "examinations", "users", column: "technical_id"
+  add_foreign_key "operations", "resources"
+  add_foreign_key "pathologies", "pathology_categories"
+  add_foreign_key "pathologies", "pathology_zones"
+  add_foreign_key "patients", "cities"
+  add_foreign_key "prescribers", "services"
+  add_foreign_key "prescribers", "specialities"
+  add_foreign_key "prescribers", "structures"
+  add_foreign_key "regions", "regions"
+  add_foreign_key "report_templates", "rooms"
+  add_foreign_key "reports", "examinations"
+  add_foreign_key "rooms", "modalities"
+  add_foreign_key "rooms", "services"
+  add_foreign_key "services", "establishments"
+  add_foreign_key "tests", "examinations"
+  add_foreign_key "users", "roles"
 end

@@ -6,7 +6,7 @@ class CreatePatients < ActiveRecord::Migration[8.0]
       t.date :birthday
       t.integer :age
       t.string :gender
-      t.references :city, null: false, foreign_key: true
+      # t.references :city, null: false, foreign_key: true
 
       t.timestamps
     end

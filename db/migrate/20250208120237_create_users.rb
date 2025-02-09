@@ -8,7 +8,7 @@ class CreateUsers < ActiveRecord::Migration[8.0]
       t.string :phone_number
       t.string :hl7_code
       t.string :password_digest
-      t.references :role, null: false, foreign_key: true
+      # t.references :role, null: true, foreign_key: true
 
       t.timestamps
     end
