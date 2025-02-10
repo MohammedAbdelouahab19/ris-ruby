@@ -95,3 +95,17 @@ rails db:migrate:status
 belongs_to :author, optional: true
 
 
+insert data with console:
+Category.create(name: 'new category')
+
+list data:
+Category.all
+
+get by id:
+Category.find(1)
+
+get by field:
+Category.find_by(field: 'new cate')
+
+
+
