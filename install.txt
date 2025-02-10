@@ -108,4 +108,8 @@ get by field:
 Category.find_by(field: 'new cate')
 
 
+create seed of model:
+tests = Test.create!(Array.new(20) { |i| { date: "2025-01-01", status: "Completed", underAnesthesia: [true, false].sample, examination: examinations.sample } })
 
+run seeds:
+rails db:seed

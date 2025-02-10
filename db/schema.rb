@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_09_150446) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_10_161754) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -52,8 +52,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_09_150446) do
     t.index ["report_template_id"], name: "index_establishments_on_report_template_id"
   end
 
+  create_table "examination_options", force: :cascade do |t|
+    t.bigint "examination_id"
+    t.bigint "modality_option_id"
+    t.index ["examination_id"], name: "index_examination_options_on_examination_id"
+    t.index ["modality_option_id"], name: "index_examination_options_on_modality_option_id"
+  end
+
   create_table "examinations", force: :cascade do |t|
-    t.float "patientWeight"
+    t.float "patient_weight"
     t.string "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -81,6 +88,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_09_150446) do
     t.string "code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "modality_option", force: :cascade do |t|
+    t.bigint "modality_id"
+    t.bigint "modality_option_id"
+    t.index ["modality_id"], name: "index_modality_option_on_modality_id"
+    t.index ["modality_option_id"], name: "index_modality_option_on_modality_option_id"
   end
 
   create_table "modality_options", force: :cascade do |t|
@@ -158,7 +172,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_09_150446) do
     t.datetime "updated_at", null: false
     t.bigint "structure_id", null: false
     t.bigint "speciality_id", null: false
-    t.bigint "service_id", null: false
+    t.bigint "service_id"
     t.index ["service_id"], name: "index_prescribers_on_service_id"
     t.index ["speciality_id"], name: "index_prescribers_on_speciality_id"
     t.index ["structure_id"], name: "index_prescribers_on_structure_id"
@@ -177,8 +191,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_09_150446) do
     t.string "direction"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "region_id", null: false
-    t.index ["region_id"], name: "index_regions_on_region_id"
+  end
+
+  create_table "report_pathologies", force: :cascade do |t|
+    t.bigint "report_id"
+    t.bigint "pathology_id"
+    t.index ["pathology_id"], name: "index_report_pathologies_on_pathology_id"
+    t.index ["report_id"], name: "index_report_pathologies_on_report_id"
+  end
+
+  create_table "report_template_radiologists", force: :cascade do |t|
+    t.bigint "report_template_id"
+    t.bigint "radiologist_id"
+    t.index ["radiologist_id"], name: "index_report_template_radiologists_on_radiologist_id"
+    t.index ["report_template_id"], name: "index_report_template_radiologists_on_report_template_id"
   end
 
   create_table "report_templates", force: :cascade do |t|
@@ -205,11 +231,25 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_09_150446) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "role_operation", force: :cascade do |t|
+    t.bigint "role_id"
+    t.bigint "operation_id"
+    t.index ["operation_id"], name: "index_role_operation_on_operation_id"
+    t.index ["role_id"], name: "index_role_operation_on_role_id"
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string "role_key"
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "room_region", force: :cascade do |t|
+    t.bigint "room_id"
+    t.bigint "region_id"
+    t.index ["region_id"], name: "index_room_region_on_region_id"
+    t.index ["room_id"], name: "index_room_region_on_room_id"
   end
 
   create_table "rooms", force: :cascade do |t|
@@ -229,7 +269,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_09_150446) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "establishment_id", null: false
+    t.bigint "establishment_id"
     t.index ["establishment_id"], name: "index_services_on_establishment_id"
   end
 
@@ -252,6 +292,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_09_150446) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "test_organ", force: :cascade do |t|
+    t.bigint "test_id"
+    t.bigint "organ_id"
+    t.index ["organ_id"], name: "index_test_organ_on_organ_id"
+    t.index ["test_id"], name: "index_test_organ_on_test_id"
+  end
+
   create_table "tests", force: :cascade do |t|
     t.date "date"
     t.string "status"
@@ -269,10 +316,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_09_150446) do
     t.string "title"
     t.string "phone_number"
     t.string "hl7_code"
-    t.string "password_digest"
+    t.string "password", comment: "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "role_id"
+    t.string "email"
     t.index ["role_id"], name: "index_users_on_role_id"
     t.index ["username"], name: "index_users_on_username", unique: true
   end
@@ -301,7 +349,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_09_150446) do
   add_foreign_key "prescribers", "services"
   add_foreign_key "prescribers", "specialities"
   add_foreign_key "prescribers", "structures"
-  add_foreign_key "regions", "regions"
+  add_foreign_key "report_template_radiologists", "users", column: "radiologist_id"
   add_foreign_key "report_templates", "rooms"
   add_foreign_key "reports", "examinations"
   add_foreign_key "rooms", "modalities"
