@@ -17,7 +17,7 @@ ALTER ROLE username CREATEDB;
 \q
 exit
 
- bin/rails db:create
+bin/rails db:create
 bin/rails db:migrate
 
 
@@ -91,5 +91,7 @@ rails db:create
 show which migrations are up:
 rails db:migrate:status
 
+
+belongs_to :author, optional: true
 
 
