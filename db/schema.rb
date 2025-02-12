@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_11_161654) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_10_165444) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -19,18 +19,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_11_161654) do
     t.string "code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "auths", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_auths_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_auths_on_reset_password_token", unique: true
   end
 
   create_table "categories", force: :cascade do |t|
@@ -197,6 +185,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_11_161654) do
     t.index ["structure_id"], name: "index_prescribers_on_structure_id"
   end
 
+  create_table "products", force: :cascade do |t|
+    t.string "name"
+    t.float "unit_price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "category_id"
+    t.index ["category_id"], name: "index_products_on_category_id"
+  end
+
   create_table "reanimators", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
@@ -336,19 +333,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_11_161654) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "first_name"
+    t.string "first_name", null: false
     t.string "last_name"
     t.string "username"
+    t.string "email"
     t.string "title"
     t.string "phone_number"
     t.string "hl7_code"
-    t.string "password_digest", comment: "comment"
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "role_id"
-    t.string "email"
-    t.index ["role_id"], name: "index_users_on_role_id"
-    t.index ["username"], name: "index_users_on_username", unique: true
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   create_table "workspaces", force: :cascade do |t|
@@ -375,6 +374,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_11_161654) do
   add_foreign_key "prescribers", "services"
   add_foreign_key "prescribers", "specialities"
   add_foreign_key "prescribers", "structures"
+  add_foreign_key "products", "categories"
   add_foreign_key "report_template_radiologists", "users", column: "radiologist_id"
   add_foreign_key "report_templates", "rooms"
   add_foreign_key "reports", "examinations"
@@ -382,5 +382,4 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_11_161654) do
   add_foreign_key "rooms", "services"
   add_foreign_key "services", "establishments"
   add_foreign_key "tests", "examinations"
-  add_foreign_key "users", "roles"
 end
