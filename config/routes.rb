@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
-  # resources :users
-  # post '/auth/login', to: "atuhentication#login"
+  devise_for :users, controllers: {
+        sessions: 'auth/sessions'
+      }
+  root to: "convention#index"
+  # resources :users, only: [:index, :show, :create, :update, :destroy]
   resources :categories, only: [:index, :show, :create, :update, :destroy]
   resources :cities, only: [:index, :show, :create, :update, :destroy]
   resources :conventions, only: [:index, :show, :create, :update, :destroy]
@@ -23,7 +26,5 @@ Rails.application.routes.draw do
   resources :specialities, only: [:index, :show, :create, :update, :destroy]
   resources :structures, only: [:index, :show, :create, :update, :destroy]
   resources :tests, only: [:index, :show, :create, :update, :destroy]
-  resources :users, only: [:index, :show, :create, :update, :destroy]
   resources :workspaces, only: [:index, :show, :create, :update, :destroy]
-  devise_for :users, controllers: { sessions: "users/sessions" }
 end
