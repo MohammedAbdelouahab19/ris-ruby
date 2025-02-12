@@ -1,4 +1,4 @@
-class Api::CitiesController < ApplicationController
+class CitiesController < ApplicationController
   def index
     @cities = City.all
     render json: @cities
