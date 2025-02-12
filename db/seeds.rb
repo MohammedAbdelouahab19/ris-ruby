@@ -73,23 +73,23 @@ Service.destroy_all
 Convention.destroy_all
 Category.destroy_all
 City.destroy_all
-User.destroy_all
-Role.destroy_all
+# User.destroy_all
+# Role.destroy_all
 
 Organ.destroy_all
 ModalityOption.destroy_all
-Modality.destroy_all
+# Modality.destroy_all
 Corresponding.destroy_all
 
 
 roles = 5.times.map { Role.create!(role_key: Faker::Lorem.word, name: Faker::Job.title) }
-users = 20.times.map {  User.create!(title: Faker::Lorem.word, username: Faker::Name.first_name, first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, password: Faker::Internet.password(min_length: 8), phone_number: Faker::PhoneNumber.cell_phone) }
+users = 20.times.map {  User.create!(title: Faker::Lorem.word,email: Faker::Internet.email, username: Faker::Name.first_name, first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, password: Faker::Internet.password(min_length: 8), phone_number: Faker::PhoneNumber.cell_phone) }
 cities = 20.times.map { City.create!(name: Faker::Address.city) }
 categories = 20.times.map { Category.create!(name: Faker::Commerce.department) }
 correspondings = 20.times.map { Corresponding.create!(name: Faker::Name.name) }
 conventions = 20.times.map { Convention.create!(name: Faker::Company.name) }
 
-services = 20.times.map { Service.create!(name: Faker::Company.industry) }
+services = 2000.times.map { Service.create!(name: Faker::Company.industry) }
 
 rooms = 20.times.map { Room.create!(name: Faker::Company.name, description: Faker::Lorem.sentence, ip: Faker::Internet.ip_v4_address, application_entity_title: Faker::Lorem.word,
 service: services.sample, modality: Modality.create!(code: Faker::Alphanumeric.alpha(number: 3).upcase)) }

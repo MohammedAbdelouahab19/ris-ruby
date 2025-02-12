@@ -1,7 +1,12 @@
 class ConventionsController < ApplicationController
   def index
     @conventions = Convention.all
-    render json: @conventions
+
+    respond_to do |format|
+      format.json { render json: @convention }
+      format.html { render '<h1>hello</h1>' }
+    end
+    # render json: @conventions
   end
 
   def show
