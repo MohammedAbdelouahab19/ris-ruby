@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   resources :users, only: [:index, :show, :create, :update, :destroy]
   resources :categories, only: [:index, :show, :create, :update, :destroy]
   resources :cities, only: [:index, :show, :create, :update, :destroy]
-  resources :conventions, only: [:index, :show, :create, :update, :destroy]
+  resources :conventions, only: [:new, :index, :show, :create, :update, :destroy]
   resources :correspondings, only: [:index, :show, :create, :update, :destroy]
   resources :organs, only: [:index, :show, :create, :update, :destroy]
   resources :pathologies, only: [:index, :show, :create, :update, :destroy]

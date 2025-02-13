@@ -2,21 +2,25 @@ class ConventionsController < ApplicationController
   def index
     @conventions = Convention.all
 
-    respond_to do |format|
-      format.json { render json: @convention }
-      format.html { render '<h1>hello</h1>' }
-    end
-    # render json: @conventions
+   render json: @conventions
   end
 
   def show
     render json: @convention
   end
 
+  def new
+    @convention = Convention.new
+  end
+
   def create
     @convention = Convention.new(convention_params)
     if @convention.save
-      render json: @convention, status: :created
+      respond_to do |format|
+        flash[:notice] = 'Convention was successfully created.'
+        format.html { redirect_to @convention }
+      end
+      # render json: @convention, status: :created
     else
       render json: @convention.errors, status: :unprocessable_entity
     end

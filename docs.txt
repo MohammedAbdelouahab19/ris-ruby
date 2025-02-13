@@ -1,0 +1,36 @@
+ link_to "Edit this post", edit_post_path(3)
+ => /post/:id/edit
+
+  resources :posts, only: [:index, :show] => only get /posts & get /posts/1
+  resources :users, except: [:index] => not /users
+
+non-restfull routes:
+get /dashboard, to: 'dashboardcontroller#index
+
+les champs allowé dans le payload:
+def allowed_post_params
+    params.expect(post: [:title, :body, :author_id])
+  end
+
+flash messages:
+def create
+      @post = Post.new(allowed_post_params)
+      if @post.save
+        flash[:success] = "Great! Your post has been created!"
+        redirect_to @post # go to show page for @post
+      else
+        flash.now[:error] = "Rats! Fix your mistakes, please."
+        render :new, status: :unprocessable_entity
+      end
+    end
+
+include partial page:
+    <%= render "shared/your_partial", :user => user %>
+
+
+
+
+
+
+
+
