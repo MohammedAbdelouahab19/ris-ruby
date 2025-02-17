@@ -28,6 +28,8 @@ include partial page:
     <%= render "shared/your_partial", :user => user %>
 
 
+importmap:
+
 
 
 
