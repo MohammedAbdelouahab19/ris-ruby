@@ -33,10 +33,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_10_165444) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "conventions", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table "conventions", id: :serial, force: :cascade do |t|
+    t.string "name", limit: 255, null: false
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
   end
 
   create_table "correspondings", force: :cascade do |t|

@@ -2,7 +2,10 @@ class ConventionsController < ApplicationController
   def index
     @conventions = Convention.all
 
-   render json: @conventions
+    respond_to do |format|
+      format.html 
+    end
+  #  render json: @conventions
   end
 
   def show
@@ -17,7 +20,7 @@ class ConventionsController < ApplicationController
     @convention = Convention.new(convention_params)
     if @convention.save
       respond_to do |format|
-        flash[:notice] = 'Convention was successfully created.'
+        # flash[:notice] = 'Convention was successfully created.'
         format.html { redirect_to @convention }
       end
       # render json: @convention, status: :created
