@@ -14,6 +14,10 @@ class ServicesController < ApplicationController
     end
   end
 
+  def new
+    @convention = Convention.new
+  end
+  
   # GET /services/1
   def show
     render json: @service
@@ -43,7 +47,11 @@ class ServicesController < ApplicationController
   def destroy
     @service.destroy!
   end
-
+  
+  def edit
+    @service = Service.find(params[:id])
+  end
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_service
