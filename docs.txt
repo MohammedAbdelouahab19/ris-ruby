@@ -31,6 +31,14 @@ include partial page:
 importmap:
 
 
+session:
+session[:current_user_id] = user.id
+
+reset session:
+reset_session
+
+groups establishment by city name:
+Establishment.joins(:city).group('city.name').count
 
 
 

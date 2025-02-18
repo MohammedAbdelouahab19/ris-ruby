@@ -15,7 +15,7 @@ class ServicesController < ApplicationController
   end
 
   def new
-    @convention = Convention.new
+    @service = Service.new
   end
   
   # GET /services/1
@@ -28,9 +28,15 @@ class ServicesController < ApplicationController
     @service = Service.new(service_params)
 
     if @service.save
-      render json: @service, status: :created, location: @service
+      respond_to do |format|
+        format.html redirect_to @service
+        format.json { render json: @service, status: :created, location: @service }
+      end
     else
-      render json: @service.errors, status: :unprocessable_entity
+      respond_to do |format|
+        format.html {render :new, status: :unprocessable_entity}
+        format.json{ render json: @service.errors, status: :unprocessable_entity}
+      end
     end
   end
 
