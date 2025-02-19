@@ -1,0 +1,17 @@
+<%= form_with(model: service, class: 'space-y-6') do |f| %>
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name, class: 'form-control w-full' %>
+    <%= inline_error_for(:name, service).html_safe %>
+</div>
+
+<div>
+    <%= f.label :establishment_id %>
+    <%= f.collection_select(:establishment_id, Establishment.all, :id, :name) %>
+    <%= f.inline_error_for(establishment_id, service).html_safe %>
+</div>
+
+<div>
+    <%= f.submit 'ok', class: 'btn btn-primary' %>
+</div>
+<% end %>

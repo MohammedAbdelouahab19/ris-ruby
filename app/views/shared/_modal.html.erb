@@ -1,0 +1,67 @@
+<%
+  modal_container_id = local_assigns[:modal_container_id] || "modal"
+  modal_id = local_assigns[:modal_id]
+  modal_weight = local_assigns[:modal_weight] ? modal_weight : "max-w-full md:max-w-[90vw]"
+  modal_width = local_assigns[:modal_width] ? modal_width : "w-full md:w-[90vw]" 
+
+  # For the old views that pass container/backdrop/panel
+  if local_assigns[:container]
+    container = "data-modal-target=#{local_assigns[:container]}"
+    backdrop = "data-modal-target=#{local_assigns[:backdrop]}"
+    panel = "data-modal-target=#{local_assigns[:panel]}"
+  elsif local_assigns[:modal_id]
+    # For newer style with modal_id
+    container = "data-modal-container=#{modal_id}"
+    backdrop = "data-modal-backdrop=#{modal_id}"
+    panel = "data-modal-panel=#{modal_id}"
+  else
+    # Default fallback
+    container = "data-modal-target=container"
+    backdrop = "data-modal-target=backdrop"
+    panel = "data-modal-target=panel"
+  end
+%>
+<div id=<%= modal_container_id %>>
+  <% if !local_assigns[:suppress_cta] %>
+    <%= yield %>
+  <% end %>
+  <div <%= container %>
+    class="relative z-50 hidden"
+    aria-labelledby="modal-title"
+    role="dialog"
+    aria-modal="true">
+    <div
+      <%= backdrop %>
+      class="fixed hidden inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+      data-transition-enter="ease-out duration-300"
+      data-transition-enter-start="opacity-0"
+      data-transition-enter-end="opacity-100"
+      data-transition-leave="ease-in duration-200"
+      data-transition-leave-start="opacity-100"
+      data-transition-leave-end="opacity-0">
+    </div>
+    <div class="fixed inset-0 z-10 overflow-y-auto">
+      <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+        <div
+          <%= panel %>
+          class="relative transform bg-opacity-0 rounded-lg bg-white text-left shadow-xl transition-all <%= modal_width %> sm:my-8 sm:<%= modal_weight %>"
+          data-transition-enter="ease-out duration-300"
+          data-transition-enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+          data-transition-enter-end="opacity-100 translate-y-0 sm:scale-100"
+          data-transition-leave="ease-in duration-200"
+          data-transition-leave-start="opacity-100 translate-y-0 sm:scale-100"
+          data-transition-leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+          <div>
+            <div class="mt-3 sm:mt-5 bg-white px-4 sm:px-6 py-4 sm:py-6 sm:rounded-lg sm:shadow-xl">
+              <% if !local_assigns[:suppress_cta] %>
+                <%= turbo_frame_tag modal_id ? "modal_content_#{modal_id}" : "modal_content" %>
+              <% else %>
+                <%= yield %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

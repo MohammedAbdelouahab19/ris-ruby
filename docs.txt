@@ -41,6 +41,54 @@ groups establishment by city name:
 Establishment.joins(:city).group('city.name').count
 
 
+active record callbacks (like event listener, ex: service created, do this):
+before_create, after_create, around_create
+example:
+class User < ActiveRecord::Base
+  before_create do |user|
+    puts "about to create #{user.name}"
+  end
 
+  after_create :just_create
+  
+  private
+
+  def just_create
+    puts "justcreated a user"
+  end
+end
+
+in the controller:
+before_create :run_code, :unless => :method_is_true
+private
+
+def method_is_true
+  true
+end
+
+life cycle of an active record:
+init, validation, saving, creating, updating, finding.
+
+nested form:
+https://www.theodinproject.com/lessons/ruby-on-rails-advanced-forms#:~:text=We%E2%80%99ll%20do%20a%20broad%20overview%20of%20the%20process%20here%3A
+
+respond_to:
+ def index
+    @users = User.all
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @users }
+      format.json { render :json => @users }
+    end
+  end
+
+CSS bundling:
+processing css part of Assert Pipeline
+
+If you use the jsbundling or cssbundling gems you should always
+start your app by running ./bin/dev in your terminal.
+This task will run the Rails server, and the JS and CSS watch
+commands to ensure your assets rebuild when needed.
 
 

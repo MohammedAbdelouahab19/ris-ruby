@@ -1,23 +1,4 @@
-<%= form_with model: @service do |f| %>
-    <%= f.text_field :name %>
-    <% if @service.errors[:name] %>
-    <span class="text-danger">
-        <% @service.errors.full_messages.each do |errorMessage| %>
-            <%= errorMessage %>
-        <% end %>
-    </span>
-        <%end%>
-    <%= f.submit 'add' %>
+<%= turbo_frame_tag 'modal_content' do %>
+    <h1>New service</h1>
+    <%= render partial: 'form', locals: {service: @service} %>
 <% end %>
- <% if @service.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@service.errors.count, "error") %> prohibited this service from being saved:</h2>
-
-      <ul>
-        <%=  @service.errors %>
-      <% @service.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>

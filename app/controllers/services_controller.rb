@@ -1,15 +1,17 @@
 class ServicesController < ApplicationController
-  helper Kaminari::Helpers::HelperMethods
+  # helper Kaminari::Helpers::HelperMethods
 
   before_action :set_service, only: %i[ show update destroy ]
 
   # GET /services
   def index
     # @services = Service.select(:id, :name).page(params[:page]).per(:default_per_page)
-    @services = Service.page params[:page]
+    @q = Service.ransack(params[:q])
+    @services = @q.result(distinct: true).page(params[:page])
+    # @services = Service.page params[:page]
 
     respond_to do |format|
-      format.html 
+      format.html
       format.json { render json: @services }
     end
   end

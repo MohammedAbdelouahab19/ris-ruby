@@ -1,27 +1,3 @@
-<div class="card">
-  <%= paginate @services, remote: true %>
+<div class=''>
+    <%= render 'shared/modal' %>
 </div>
-<div class="card">
-    <%= link_to 'new', new_service_path %>
-</div>
-<table class="table">
-    <thead>
-        <tr>
-            <th>actions</th>
-            <th>id</th>
-            <th>name</th>
-        </tr>
-    </thead>
-    <tbody>
-        <% @services.each do |service| %>
-            <tr>
-                <td>
-                    <%= link_to 'edit', edit_service_path(service.id) %>
-                    <%= link_to 'delete', service_path(service.id), data: { turbo_action: 'delete' }%>
-                </td>
-                <td><%= service.id %></td>
-                <td><%= service.name %></td>
-            </tr>
-        <% end %>
-    </tbody>
-</table>
