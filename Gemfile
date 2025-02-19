@@ -60,3 +60,4 @@ gem 'bootstrap', '~> 5.3.3'
 gem 'sassc-rails'
 gem 'cssbundling-rails'
 gem 'ransack', '~> 4.2'
+gem "turbo-rails"

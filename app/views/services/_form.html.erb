@@ -2,13 +2,21 @@
   <div>
     <%= f.label :name %>
     <%= f.text_field :name, class: 'form-control w-full' %>
-    <%= inline_error_for(:name, service).html_safe %>
+    <%
+=begin%>
+ <%= inline_error_for(:name, service).html_safe %> 
+<%
+=end%>
 </div>
 
 <div>
     <%= f.label :establishment_id %>
     <%= f.collection_select(:establishment_id, Establishment.all, :id, :name) %>
-    <%= f.inline_error_for(establishment_id, service).html_safe %>
+    <%
+=begin%>
+ <%= f.inline_error_for(establishment_id, service).html_safe %> 
+<%
+=end%>
 </div>
 
 <div>
