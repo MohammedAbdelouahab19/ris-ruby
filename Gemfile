@@ -56,7 +56,7 @@ end
 
 gem "devise", "~> 4.9"
 gem 'kaminari'
-gem 'bootstrap', '~> 5.3.3'
+gem 'bootstrap', '~> 5.3.5'
 gem 'sassc-rails'
 gem 'cssbundling-rails'
 gem 'ransack', '~> 4.2'
